@@ -1,0 +1,6 @@
+target/
+.git/
+.gitignore
+*.md
+open_foresight.html
+sample_products.csv

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'suppliers')}">
+<head><title>Supplier form</title></head>
+<body>
+<section>
+<header class="page-head"><div><h1 th:text="${supplierId == null} ? 'Add supplier' : 'Edit supplier'">Supplier</h1>
+    <p>Link the products this supplier provides so purchase orders can suggest them.</p></div></header>
+  <form class="panel" th:object="${form}" method="post"
+        th:action="${supplierId == null} ? @{/suppliers} : @{/suppliers/{id}(id=${supplierId})}">
+    <div class="form-grid">
+      <div><label for="name">Supplier name</label><input id="name" th:field="*{name}" maxlength="150">
+        <div class="field-error" th:errors="*{name}"></div></div>
+      <div><label for="contactPerson">Contact person</label><input id="contactPerson" th:field="*{contactPerson}" maxlength="100">
+        <div class="field-error" th:errors="*{contactPerson}"></div></div>
+      <div><label for="email">Email</label><input id="email" type="email" th:field="*{email}" maxlength="120">
+        <div class="field-error" th:errors="*{email}"></div></div>
+      <div><label for="phone">Phone</label><input id="phone" th:field="*{phone}" maxlength="30">
+        <div class="field-error" th:errors="*{phone}"></div></div>
+      <div class="full"><label for="address">Address</label><input id="address" th:field="*{address}" maxlength="255">
+        <div class="field-error" th:errors="*{address}"></div></div>
+      <div class="full"><label>Products supplied</label>
+        <div class="checklist">
+          <label th:each="p : ${products}"><input type="checkbox" name="productIds" th:value="${p.id}"
+                 th:checked="${form.productIds.contains(p.id)}"><span th:text="${p.name}">Product</span></label>
+        </div></div>
+      <div class="full"><label style="display:flex;gap:8px;align-items:center;font-weight:500">
+        <input type="checkbox" th:field="*{active}"> Active supplier (can receive new purchase orders)</label></div>
+    </div>
+    <div class="actions" style="margin-top:20px">
+      <button type="submit" class="btn gold">Save supplier</button>
+      <a class="btn ghost" th:href="@{/suppliers}">Cancel</a>
+    </div>
+  </form>
+</section>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'orders')}">
+<head><title>Purchase orders</title></head>
+<body>
+<section>
+<header class="page-head">
+    <div><h1>Purchase orders</h1><p>Track what has been ordered and what is still to arrive.</p></div>
+    <div class="actions" sec:authorize="hasAnyRole('ADMIN','PURCHASING_STAFF')">
+      <a class="btn gold" th:href="@{/purchase-orders/new}">New purchase order</a>
+    </div>
+  </header>
+  <div class="panel flush">
+    <form class="filters" th:action="@{/purchase-orders}" method="get">
+      <div><label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="">All statuses</option>
+          <option th:each="s : ${statuses}" th:value="${s.name()}" th:text="${s.label}" th:selected="${s.name() == status}"></option>
+        </select></div>
+      <button type="submit">Apply filter</button>
+      <a class="btn ghost" th:href="@{/purchase-orders}">Clear</a>
+    </form>
+    <div class="empty" th:if="${orders.isEmpty()}">No purchase orders found.</div>
+    <table th:unless="${orders.isEmpty()}">
+      <thead><tr><th>Order</th><th>Supplier</th><th>Status</th><th class="num">Received / ordered</th><th class="num">Total</th><th>Expected</th></tr></thead>
+      <tbody>
+        <tr th:each="o : ${orders.content}">
+          <td><a th:href="@{/purchase-orders/{id}(id=${o.id})}" th:text="${o.orderNumber}">PO-00001</a>
+            <div class="muted" th:text="${#temporals.format(o.createdAt, 'dd MMM yyyy')}">date</div></td>
+          <td th:text="${o.supplier.name}">Supplier</td>
+          <td><span class="badge" th:classappend="${o.status.css}" th:text="${o.status.label}">Status</span></td>
+          <td class="num" th:text="${o.totalReceived + ' / ' + o.totalOrdered}">0 / 0</td>
+          <td class="num"><span th:replace="~{fragments :: money(${o.totalAmount})}"></span></td>
+          <td th:text="${o.expectedDate != null} ? ${#temporals.format(o.expectedDate, 'dd MMM yyyy')} : '-'">-</td>
+        </tr>
+      </tbody>
+    </table>
+    <nav th:replace="~{fragments :: pager(${orders}, ${pageUrl})}"></nav>
+  </div>
+</section>
+</body>
+</html>

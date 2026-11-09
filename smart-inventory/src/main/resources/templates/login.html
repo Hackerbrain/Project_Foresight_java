@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in - Smart Inventory</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <style>
+    .demo-box {
+      margin-top: 22px;
+      padding: 14px;
+      background: #f8fafd;
+      border: 1px dashed #c9d3e2;
+      border-radius: var(--radius);
+      font-size: 13px;
+    }
+    .demo-box-title {
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .demo-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .demo-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 7px 10px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.15s ease;
+      color: var(--ink);
+      text-align: left;
+    }
+    .demo-btn:hover {
+      border-color: var(--teal);
+      background: #f0f7fb;
+    }
+    .demo-btn strong {
+      color: var(--navy);
+    }
+    .demo-btn code {
+      font-family: Consolas, monospace;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .pw-wrap {
+      position: relative;
+    }
+    .pw-toggle {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 12px;
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 4px;
+      width: auto !important;
+      margin-top: 0 !important;
+    }
+    .pw-toggle:hover {
+      background: #eef2f8;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+<div class="login-wrap">
+  <form class="login-card" th:action="@{/login}" method="post">
+    <h1>Smart Inventory</h1>
+    <p>Sign in to manage stock, suppliers and purchase orders.</p>
+    <div class="flash error" role="alert" th:if="${param.error}">Wrong username or password, or the account is disabled.</div>
+    <div class="flash success" role="status" th:if="${param.logout}">You have been signed out.</div>
+    <div class="field">
+      <label for="username">Username</label>
+      <input id="username" name="username" autocomplete="username" required autofocus placeholder="e.g. admin">
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <div class="pw-wrap">
+        <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="e.g. Admin@123">
+        <button type="button" class="pw-toggle" id="togglePwBtn" onclick="togglePassword()">Show</button>
+      </div>
+    </div>
+    <button type="submit" class="btn gold">Sign in</button>
+
+    <div class="demo-box">
+      <div class="demo-box-title">
+        <span>Quick Demo Accounts</span>
+        <span style="font-size: 11px; font-weight: normal; color: var(--muted);">Click to autofill</span>
+      </div>
+      <div class="demo-buttons">
+        <button type="button" class="demo-btn" onclick="fillCreds('admin', 'Admin@123')">
+          <span><strong>Admin:</strong> Asha</span>
+          <code>admin / Admin@123</code>
+        </button>
+        <button type="button" class="demo-btn" onclick="fillCreds('inventory', 'Inventory@123')">
+          <span><strong>Inventory:</strong> Ivan</span>
+          <code>inventory / Inventory@123</code>
+        </button>
+        <button type="button" class="demo-btn" onclick="fillCreds('purchasing', 'Purchasing@123')">
+          <span><strong>Purchasing:</strong> Priya</span>
+          <code>purchasing / Purchasing@123</code>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  function fillCreds(u, p) {
+    var uField = document.getElementById('username');
+    var pField = document.getElementById('password');
+    uField.value = u;
+    pField.value = p;
+    pField.type = 'text';
+    var toggleBtn = document.getElementById('togglePwBtn');
+    if (toggleBtn) toggleBtn.textContent = 'Hide';
+    pField.focus();
+  }
+
+  function togglePassword() {
+    var pField = document.getElementById('password');
+    var toggleBtn = document.getElementById('togglePwBtn');
+    if (pField.type === 'password') {
+      pField.type = 'text';
+      toggleBtn.textContent = 'Hide';
+    } else {
+      pField.type = 'password';
+      toggleBtn.textContent = 'Show';
+    }
+  }
+</script>
+</body>
+</html>

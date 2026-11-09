@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'orders')}">
+<head><title>New purchase order</title></head>
+<body>
+<section>
+<header class="page-head"><div><h1>New purchase order</h1>
+    <p>Start a draft. You will add items on the next screen and place the order when it is ready.</p></div></header>
+  <form class="panel" th:object="${form}" th:action="@{/purchase-orders}" method="post">
+    <div class="form-grid">
+      <div><label for="supplierId">Supplier</label>
+        <select id="supplierId" th:field="*{supplierId}">
+          <option value="">Choose a supplier</option>
+          <option th:each="s : ${suppliers}" th:value="${s.id}" th:text="${s.name}"></option>
+        </select>
+        <div class="field-error" th:errors="*{supplierId}"></div></div>
+      <div><label for="expectedDate">Expected delivery date</label><input id="expectedDate" type="date" th:field="*{expectedDate}">
+        <div class="field-error" th:errors="*{expectedDate}"></div></div>
+      <div class="full"><label for="notes">Notes</label><textarea id="notes" th:field="*{notes}" maxlength="500"></textarea>
+        <div class="field-error" th:errors="*{notes}"></div></div>
+    </div>
+    <div class="actions" style="margin-top:20px">
+      <button type="submit" class="btn gold">Create draft</button>
+      <a class="btn ghost" th:href="@{/purchase-orders}">Cancel</a>
+    </div>
+  </form>
+</section>
+</body>
+</html>

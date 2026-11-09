@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'inventory')}">
+<head><title>Record transaction</title></head>
+<body>
+<section>
+<header class="page-head"><div><h1>Record stock transaction</h1>
+    <p>Stock in adds units, stock out removes them, and an adjustment sets stock to a counted quantity.</p></div></header>
+  <form class="panel" th:object="${form}" th:action="@{/inventory/transaction}" method="post">
+    <div class="form-grid">
+      <div class="full"><label for="productId">Product</label>
+        <select id="productId" th:field="*{productId}">
+          <option value="">Choose a product</option>
+          <option th:each="p : ${products}" th:value="${p.id}" th:text="${p.sku + ' - ' + p.name + ' (' + p.quantityOnHand + ' on hand)'}"></option>
+        </select>
+        <div class="field-error" th:errors="*{productId}"></div></div>
+      <div><label for="type">Transaction type</label>
+        <select id="type" th:field="*{type}">
+          <option value="STOCK_IN">Stock in (add units)</option>
+          <option value="STOCK_OUT">Stock out (remove units)</option>
+          <option value="ADJUSTMENT">Adjustment (set counted quantity)</option>
+        </select>
+        <div class="field-error" th:errors="*{type}"></div></div>
+      <div><label for="quantity">Quantity</label><input id="quantity" type="number" min="0" th:field="*{quantity}">
+        <div class="hint">For an adjustment, enter the total you counted, not the difference.</div>
+        <div class="field-error" th:errors="*{quantity}"></div></div>
+      <div><label for="reason">Reason</label><input id="reason" th:field="*{reason}" maxlength="255" placeholder="e.g. Customer sale, damaged goods, stock count">
+        <div class="field-error" th:errors="*{reason}"></div></div>
+      <div><label for="reference">Reference (optional)</label><input id="reference" th:field="*{reference}" maxlength="60" placeholder="e.g. invoice number">
+        <div class="field-error" th:errors="*{reference}"></div></div>
+    </div>
+    <div class="actions" style="margin-top:20px">
+      <button type="submit" class="btn gold">Record transaction</button>
+      <a class="btn ghost" th:href="@{/inventory}">Cancel</a>
+    </div>
+  </form>
+</section>
+</body>
+</html>

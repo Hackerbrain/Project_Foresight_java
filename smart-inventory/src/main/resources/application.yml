@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: smart-inventory
+  datasource:
+    # Zero-setup default: file-based H2 database stored in ./data. Use the mysql or postgres profile for a server DB.
+    url: jdbc:h2:file:./data/inventory
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: true
+  thymeleaf:
+    cache: false
+  h2:
+    console:
+      enabled: false
+
+server:
+  port: 8080
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        same-site: lax
+  error:
+    include-message: never
+    include-stacktrace: never
+
+app:
+  currency-symbol: "₹"
+  seed:
+    enabled: ${APP_SEED_ENABLED:true}

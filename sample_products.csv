@@ -1,0 +1,6 @@
+sku,name,category,costPrice,sellingPrice,stock,reorderLevel
+PRD-9001,Precision Digital Multimeter,Electronics & Computing,45.00,79.99,25,10
+PRD-9002,Hydraulic Pressure Valve 200Bar,Industrial Components,115.00,195.00,14,5
+PRD-9003,Carbon Fiber Composite Sheet 2mm,Raw Materials & Metals,85.00,140.00,40,15
+PRD-9004,Anti-Static ESD Packaging Bags,Packaging & Assembly,8.50,16.00,250,50
+PRD-9005,Optocoupler High Speed Isolator,Electronics & Computing,3.20,6.50,500,100

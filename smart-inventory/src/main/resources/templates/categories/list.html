@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'categories')}">
+<head><title>Categories</title></head>
+<body>
+<section>
+<header class="page-head"><div><h1>Categories</h1><p>Group products so they are easier to find and report on.</p></div></header>
+  <div class="grid-2">
+    <div class="panel flush">
+      <div class="empty" th:if="${categories.isEmpty()}">No categories yet. Add the first one.</div>
+      <table th:unless="${categories.isEmpty()}">
+        <thead><tr><th>Name</th><th>Description</th><th></th></tr></thead>
+        <tbody>
+          <tr th:each="c : ${categories}">
+            <td th:text="${c.name}">Name</td>
+            <td class="muted" th:text="${c.description}">Description</td>
+            <td class="num" sec:authorize="hasAnyRole('ADMIN','INVENTORY_STAFF')">
+              <form class="inline" th:action="@{/categories/{id}/delete(id=${c.id})}" method="post"
+                    onsubmit="return confirm('Delete this category?');">
+                <button class="btn danger small" type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <form class="panel" th:action="@{/categories}" method="post" sec:authorize="hasAnyRole('ADMIN','INVENTORY_STAFF')">
+      <h2>Add category</h2>
+      <div style="margin-bottom:14px"><label for="name">Name</label><input id="name" name="name" maxlength="80" required></div>
+      <div style="margin-bottom:14px"><label for="description">Description</label><input id="description" name="description" maxlength="255"></div>
+      <button type="submit" class="btn gold">Add category</button>
+    </form>
+  </div>
+</section>
+</body>
+</html>

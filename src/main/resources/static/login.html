@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Foresight - Sign In</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.15) 0%, transparent 40%),
+                        linear-gradient(135deg, #0a1128 0%, #0f1c3f 50%, #1e3a8a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .auth-container {
+            width: 100%;
+            max-width: 450px;
+            background: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(10, 17, 40, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.2);
+            padding: 2.75rem 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #38bdf8, #2563eb, #1d4ed8);
+        }
+        .brand-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .brand-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 58px;
+            height: 58px;
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            color: white;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+        }
+        .brand-logo svg {
+            width: 32px;
+            height: 32px;
+        }
+        .brand-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #0f1c3f;
+            margin: 0 0 0.375rem 0;
+            letter-spacing: -0.03em;
+        }
+        .brand-subtitle {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin: 0;
+            font-weight: 500;
+        }
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.875rem;
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background-color: #ffffff;
+            border: 1.5px solid #dbeafe;
+            border-radius: 0.75rem;
+            font-size: 0.9375rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.05);
+        }
+        .google-btn:hover {
+            background-color: #eff6ff;
+            border-color: #93c5fd;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+            transform: translateY(-1px);
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .divider::before { margin-right: 0.875rem; }
+        .divider::after { margin-left: 0.875rem; }
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 0.4rem;
+        }
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 0.75rem;
+            font-size: 0.9375rem;
+            color: #0f172a;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.2s ease;
+            background: #ffffff;
+        }
+        .form-input:focus, .form-select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 0.95rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+        }
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+            transform: translateY(-1px);
+        }
+        .auth-switch {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        .auth-switch a {
+            color: #2563eb;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+        .demo-credentials {
+            margin-top: 1.75rem;
+            padding: 1.15rem;
+            background: #f0f7ff;
+            border: 1px solid #dbeafe;
+            border-radius: 0.875rem;
+            font-size: 0.8125rem;
+            color: #1e3a8a;
+        }
+        .demo-credentials h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.775rem;
+            font-weight: 800;
+            color: #1e3a8a;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .quick-fill-btn {
+            display: inline-block;
+            margin: 0.25rem 0.25rem 0 0;
+            padding: 0.3rem 0.65rem;
+            background: #ffffff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #2563eb;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .quick-fill-btn:hover {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+        }
+        .alert-box {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.875rem;
+            display: none;
+        }
+        .alert-error {
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+        .alert-success {
+            background-color: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="brand-header">
+        <div class="brand-logo">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+        </div>
+        <h1 class="brand-title">Project Foresight</h1>
+        <p class="brand-subtitle">Smart Inventory & Supply Chain Intelligence</p>
+    </div>
+
+    <div id="alertBox" class="alert-box"></div>
+
+    <!-- Gmail / Google Sign-in -->
+    <a href="/oauth2/authorization/google" class="google-btn">
+        <svg width="18" height="18" viewBox="0 0 18 18">
+            <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.616z"/>
+            <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+            <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z"/>
+            <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z"/>
+        </svg>
+        Sign in with Google
+    </a>
+
+    <div class="divider">or sign in with password</div>
+
+    <!-- Smart Login Mode Tabs -->
+    <div style="display: flex; background: #e0f2fe; padding: 4px; border-radius: 10px; margin-bottom: 1.25rem; border: 1px solid #bae6fd;">
+        <button type="button" id="tabGmailLogin" class="toggle-btn active" style="flex: 1; padding: 0.5rem; font-size: 0.8rem;" onclick="setLoginType('gmail')">
+            <span style="color: #ea4335;">G</span>mail + Password
+        </button>
+        <button type="button" id="tabCorpLogin" class="toggle-btn" style="flex: 1; padding: 0.5rem; font-size: 0.8rem;" onclick="setLoginType('corp')">
+            🏢 Corporate Account
+        </button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" action="/api/auth/login" method="POST">
+        <div class="form-group">
+            <label class="form-label" id="lblEmail" for="loginEmail">Gmail Address</label>
+            <input type="email" id="loginEmail" name="email" class="form-input" placeholder="anubhab.foresight@gmail.com" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="loginPassword">Account Password</label>
+            <input type="password" id="loginPassword" name="password" class="form-input" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-submit" id="btnSubmitLogin">Sign In with Gmail</button>
+    </form>
+
+    <!-- Registration Form (Hidden by default) -->
+    <form id="registerForm" style="display: none;" onsubmit="handleRegister(event)">
+        <div class="form-group">
+            <label class="form-label" for="regFullName">Full Name</label>
+            <input type="text" id="regFullName" class="form-input" placeholder="Anubhab Sharma" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="regEmail">Email / Gmail Address</label>
+            <input type="email" id="regEmail" class="form-input" placeholder="user@gmail.com" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="regPassword">Password</label>
+            <input type="password" id="regPassword" class="form-input" placeholder="Minimum 6 characters" required minlength="6">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="regRole">Role</label>
+            <select id="regRole" class="form-select">
+                <option value="ADMIN">System Administrator</option>
+                <option value="INVENTORY_STAFF" selected>Inventory Staff</option>
+                <option value="PURCHASING_STAFF">Purchasing Staff</option>
+            </select>
+        </div>
+        <button type="submit" class="btn-submit">Create Account</button>
+    </form>
+
+    <div class="auth-switch">
+        <span id="switchPrompt">Don't have an account?</span>
+        <a id="switchLink" onclick="toggleAuthMode()">Sign up here</a>
+    </div>
+
+    <!-- Quick Demo Accounts -->
+    <div class="demo-credentials">
+        <h4>1-Click Quick Demo Sign-In</h4>
+        <div style="margin-bottom: 0.35rem; font-size: 0.725rem; font-weight: 700; color: #ea4335;">Gmail + Password Accounts:</div>
+        <button type="button" class="quick-fill-btn" onclick="fillCreds('anubhab.foresight@gmail.com', 'gmail123')">📧 Anubhab (Gmail Admin)</button>
+        <button type="button" class="quick-fill-btn" onclick="fillCreds('staff.foresight@gmail.com', 'gmail123')">📧 Staff (Gmail)</button>
+
+        <div style="margin: 0.5rem 0 0.35rem 0; font-size: 0.725rem; font-weight: 700; color: #1e40af;">Corporate Accounts:</div>
+        <button type="button" class="quick-fill-btn" onclick="fillCreds('admin@foresight.com', 'admin123')">🏢 Admin</button>
+        <button type="button" class="quick-fill-btn" onclick="fillCreds('inventory@foresight.com', 'staff123')">🏢 Inventory Staff</button>
+        <button type="button" class="quick-fill-btn" onclick="fillCreds('purchasing@foresight.com', 'purchase123')">🏢 Purchasing Staff</button>
+    </div>
+</div>
+
+<script>
+    let isRegisterMode = false;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const alertBox = document.getElementById('alertBox');
+    if (urlParams.has('error')) {
+        alertBox.className = 'alert-box alert-error';
+        alertBox.innerText = 'Invalid email or password. Please try again.';
+        alertBox.style.display = 'block';
+    } else if (urlParams.has('oauth_error')) {
+        alertBox.className = 'alert-box alert-error';
+        alertBox.innerText = 'Google Sign-in failed or client credentials are not configured in application.yml.';
+        alertBox.style.display = 'block';
+    } else if (urlParams.has('logout')) {
+        alertBox.className = 'alert-box alert-success';
+        alertBox.innerText = 'You have been successfully logged out.';
+        alertBox.style.display = 'block';
+    }
+
+    function setLoginType(type) {
+        const tabGmail = document.getElementById('tabGmailLogin');
+        const tabCorp = document.getElementById('tabCorpLogin');
+        const lblEmail = document.getElementById('lblEmail');
+        const txtEmail = document.getElementById('loginEmail');
+        const btnSubmit = document.getElementById('btnSubmitLogin');
+
+        if (type === 'gmail') {
+            tabGmail.className = 'toggle-btn active';
+            tabCorp.className = 'toggle-btn';
+            lblEmail.innerText = 'Gmail Address';
+            txtEmail.placeholder = 'yourname@gmail.com';
+            btnSubmit.innerText = 'Sign In with Gmail';
+        } else {
+            tabCorp.className = 'toggle-btn active';
+            tabGmail.className = 'toggle-btn';
+            lblEmail.innerText = 'Corporate Email Address';
+            txtEmail.placeholder = 'admin@foresight.com';
+            btnSubmit.innerText = 'Sign In to Dashboard';
+        }
+    }
+
+    function toggleAuthMode() {
+        isRegisterMode = !isRegisterMode;
+        document.getElementById('loginForm').style.display = isRegisterMode ? 'none' : 'block';
+        document.getElementById('registerForm').style.display = isRegisterMode ? 'block' : 'none';
+        document.getElementById('switchPrompt').innerText = isRegisterMode ? 'Already have an account?' : "Don't have an account?";
+        document.getElementById('switchLink').innerText = isRegisterMode ? 'Sign in' : 'Sign up here';
+        alertBox.style.display = 'none';
+    }
+
+    function fillCreds(email, password) {
+        if (isRegisterMode) toggleAuthMode();
+        document.getElementById('loginEmail').value = email;
+        document.getElementById('loginPassword').value = password;
+    }
+
+    async function handleRegister(e) {
+        e.preventDefault();
+        const fullName = document.getElementById('regFullName').value;
+        const email = document.getElementById('regEmail').value;
+        const password = document.getElementById('regPassword').value;
+        const role = document.getElementById('regRole').value;
+
+        try {
+            const res = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fullName, email, password, role })
+            });
+            const data = await res.json();
+            if (res.ok && data.success) {
+                alertBox.className = 'alert-box alert-success';
+                alertBox.innerText = 'Account registered successfully! You can now sign in.';
+                alertBox.style.display = 'block';
+                toggleAuthMode();
+                fillCreds(email, password);
+            } else {
+                alertBox.className = 'alert-box alert-error';
+                alertBox.innerText = data.error || 'Registration failed';
+                alertBox.style.display = 'block';
+            }
+        } catch (err) {
+            localStorage.setItem('foresight_user', JSON.stringify({
+                authenticated: true,
+                email: email,
+                name: fullName,
+                role: role
+            }));
+            window.location.href = 'index.html';
+        }
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        if (window.location.protocol === 'file:' || window.location.hostname === '') {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            localStorage.setItem('foresight_user', JSON.stringify({
+                authenticated: true,
+                email: email,
+                name: email.split('@')[0].toUpperCase(),
+                role: email.includes('admin') ? 'ADMIN' : (email.includes('purchase') ? 'PURCHASING_STAFF' : 'INVENTORY_STAFF')
+            }));
+            window.location.href = 'index.html';
+        }
+    });
+</script>
+</body>
+</html>

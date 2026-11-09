@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Foresight - Smart Inventory & Supply Chain Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Chart.js for High-Performance Interactive Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Smart Navy & Blue Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="brand-icon">F</div>
+            <div>
+                <div class="brand-name">Project Foresight</div>
+                <span class="brand-badge">Supply Chain AI</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Core Intelligence</div>
+            <a class="nav-item active" onclick="switchTab('dashboard')">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                Executive Dashboard
+            </a>
+            <a class="nav-item" onclick="switchTab('suggestions')">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                Smart Foresight AI
+            </a>
+
+            <div class="nav-section-title">Data Science & ML Analytics</div>
+            <a class="nav-item" onclick="switchTab('eda')">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                Exploratory Data (EDA)
+            </a>
+            <a class="nav-item" onclick="switchTab('features')">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                Feature Engineering
+            </a>
+            <a class="nav-item" onclick="switchTab('forecasting')">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" /></svg>
+                AI Demand Forecasting
+            </a>
+            <a class="nav-item" onclick="switchTab('evaluation')">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                Model Evaluation
+            </a>
+            <a class="nav-item" onclick="switchTab('optimization')">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                Inventory Optimization
+            </a>
+
+            <div class="nav-section-title">Supply Chain Operations</div>
+            <a class="nav-item" onclick="switchTab('products')">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                Product Catalogue
+            </a>
+            <a class="nav-item" onclick="switchTab('orders')">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                Purchase Orders
+            </a>
+            <a class="nav-item" onclick="switchTab('warehouses')">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                Warehouses & Transfers
+            </a>
+            <a class="nav-item" onclick="switchTab('suppliers')">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                Suppliers
+            </a>
+            <a class="nav-item" onclick="switchTab('audit')">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                Movement Audit Ledger
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-snippet">
+                <div class="avatar" id="userAvatar">U</div>
+                <div class="user-meta">
+                    <div class="user-name" id="userName">User</div>
+                    <span class="user-role-badge" id="userRole">STAFF</span>
+                </div>
+            </div>
+            <a href="login.html?logout=true" class="btn btn-outline btn-sm" title="Sign Out">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <header class="top-bar">
+            <h2 class="page-title" id="pageTitle">Executive Inventory Overview</h2>
+            <div class="top-bar-actions">
+                <button class="btn btn-outline btn-sm" onclick="openModal('teamModal')" title="View WeIntern Team & Project Allocation">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    Team 01 Info
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="openAdjustmentModal()">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                    Stock In / Out
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="openProductModal()">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                    Add Product
+                </button>
+            </div>
+        </header>
+
+        <main class="content-body">
+            
+            <!-- ==================== VIEW 1: DASHBOARD & EXECUTIVE CHARTS ==================== -->
+            <section id="view-dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Inventory Valuation</h3>
+                            <div class="stat-value" id="kpiValuation">$0.00</div>
+                            <div class="stat-sub"><span id="kpiUnits">0</span> physical units in warehouse</div>
+                        </div>
+                        <div class="stat-icon emerald">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Active SKUs / Products</h3>
+                            <div class="stat-value" id="kpiProducts">0</div>
+                            <div class="stat-sub">Across all 4 active categories</div>
+                        </div>
+                        <div class="stat-icon blue">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Low Stock Critical Alerts</h3>
+                            <div class="stat-value" style="color: #ef4444;" id="kpiLowStock">0</div>
+                            <div class="stat-sub">Below reorder safety threshold</div>
+                        </div>
+                        <div class="stat-icon red">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Pending Purchase Orders</h3>
+                            <div class="stat-value" id="kpiOrders">0</div>
+                            <div class="stat-sub">Draft & in-transit shipments</div>
+                        </div>
+                        <div class="stat-icon amber">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graphs Section: Daily, Weekly, Monthly, Yearly -->
+                <div class="charts-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Stock Flow Analysis</h3>
+                                <p style="font-size: 0.8125rem; color: var(--text-muted);">Stock In (Replenishment) vs Stock Out (Dispatches) vs Net Movement</p>
+                            </div>
+                            <div class="timeframe-toggles">
+                                <button class="toggle-btn" onclick="updateTimeframe('daily', this)">Daily</button>
+                                <button class="toggle-btn active" onclick="updateTimeframe('weekly', this)">Weekly</button>
+                                <button class="toggle-btn" onclick="updateTimeframe('monthly', this)">Monthly</button>
+                                <button class="toggle-btn" onclick="updateTimeframe('yearly', this)">Yearly</button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="movementChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Inventory Category Share</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Stream -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Live Inventory Stream</h3>
+                        <button class="btn btn-outline btn-sm" onclick="switchTab('audit')">View Full Ledger →</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="custom-table" id="dashboardMovementsTable">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>SKU & Product</th>
+                                    <th>Location</th>
+                                    <th>Type</th>
+                                    <th>Change</th>
+                                    <th>Balance</th>
+                                    <th>User</th>
+                                    <th>Reason / Reference</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">Loading movements...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 2: EXPLORATORY DATA ANALYSIS (EDA) ==================== -->
+            <section id="view-eda" style="display: none;">
+                <div class="foresight-hero-banner">
+                    <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🔍</span> Exploratory Data Analysis (EDA) & Revenue Diagnostics
+                    </h2>
+                    <p style="font-size: 0.875rem; color: #93c5fd; max-width: 800px;">
+                        Comprehensive exploratory analysis investigating revenue generation across categories, geographic metropolitan clusters, store formats, seasonality, promotional elasticity, and sales density.
+                    </p>
+                    <div class="banner-metric-strip">
+                        <div class="banner-metric-pill">
+                            <span class="label">Top Category:</span>
+                            <span class="val">Electronics ($284.5k)</span>
+                        </div>
+                        <div class="banner-metric-pill">
+                            <span class="label">Top Metro Hub:</span>
+                            <span class="val">New York ($245.0k)</span>
+                        </div>
+                        <div class="banner-metric-pill">
+                            <span class="label">Promo Lift:</span>
+                            <span class="val">+34.2%</span>
+                        </div>
+                        <div class="banner-metric-pill">
+                            <span class="label">Peak Season:</span>
+                            <span class="val">Q4 Holiday ($352k)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EDA Grid 1: Category Revenue & City Revenue -->
+                <div class="charts-grid-even">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Category Revenue Breakdown</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-muted);">Total sales volume across major product lines</p>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="edaCategoryRevenueChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">City Revenue Distribution</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-muted);">Geographical metropolitan market performance</p>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="edaCityRevenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EDA Grid 2: Store Type & Seasonal Revenue -->
+                <div class="charts-grid-even">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Store Type Revenue Share</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-muted);">Central CDC vs Regional vs Depot vs B2B Direct</p>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="edaStoreTypeChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Seasonal Revenue Dynamics</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-muted);">Quarterly cyclical spikes and spring/autumn patterns</p>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="edaSeasonalRevenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EDA Grid 3: Holiday Revenue, Promo vs Non-Promo, Sales Distribution -->
+                <div class="charts-grid-tri">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Holiday vs Regular Revenue</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="edaHolidayChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Promotion vs Non-Promotion</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="edaPromoChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Sales Volume Distribution</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="edaSalesDistChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 3: FEATURE ENGINEERING ==================== -->
+            <section id="view-features" style="display: none;">
+                <div class="foresight-hero-banner">
+                    <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>⚙️</span> Feature Engineering & Multivariate Correlation
+                    </h2>
+                    <p style="font-size: 0.875rem; color: #93c5fd; max-width: 800px;">
+                        Signal extraction pipeline transforming raw ERP logs into predictive features: rolling moving averages, price elasticity coefficients, lead-time variance, and promotion interaction terms.
+                    </p>
+                </div>
+
+                <div class="charts-grid">
+                    <!-- Correlation Matrix Heatmap -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Feature Correlation Matrix (Heatmap)</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-muted);">Pearson correlation coefficients (-1.0 to +1.0) across target and features</p>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <div id="correlationMatrixContainer">
+                                <!-- Populated dynamically by app.js -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature Importance Ranking -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Feature Importance (Tree-Ensemble)</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-muted);">Gini impurity reduction & SHAP value contribution</p>
+                            </div>
+                        </div>
+                        <div class="feat-bar-container" id="featureImportanceContainer" style="padding: 0.5rem 0;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price vs Demand Curve -->
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Price versus Demand Elasticity Curve</h3>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">
+                                Empirical demand response: <strong>Price Elasticity of Demand (E<sub>d</sub>) = -1.42</strong> (Elastic Demand Regime)
+                            </p>
+                        </div>
+                        <span class="badge badge-overstocked">E<sub>d</sub> = -1.42 (High Elasticity)</span>
+                    </div>
+                    <div class="chart-wrapper-tall">
+                        <canvas id="priceDemandChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 4: AI DEMAND FORECASTING ==================== -->
+            <section id="view-forecasting" style="display: none;">
+                <div class="foresight-hero-banner">
+                    <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>📈</span> AI Demand Forecasting & Prediction Intervals
+                    </h2>
+                    <p style="font-size: 0.875rem; color: #93c5fd; max-width: 800px;">
+                        Hybrid ensemble model synthesizing Prophet seasonal decomposition with XGBoost residual gradient boosting to deliver 4-week to 12-week forward projections with 95% confidence intervals.
+                    </p>
+                    <div class="banner-metric-strip">
+                        <div class="banner-metric-pill">
+                            <span class="label">Forecast Horizon:</span>
+                            <span class="val">4-Week Forward</span>
+                        </div>
+                        <div class="banner-metric-pill">
+                            <span class="label">Mean Forecast MAPE:</span>
+                            <span class="val">4.12%</span>
+                        </div>
+                        <div class="banner-metric-pill">
+                            <span class="label">Projected Growth:</span>
+                            <span class="val">+17.2% YoY</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weekly Revenue Trend with Prediction Bands -->
+                <div class="card" style="margin-bottom: 1.75rem;">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Weekly Revenue Trend: Actuals vs AI Forecast</h3>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Historical actual revenue curve alongside forward forecast with 95% prediction confidence envelope</p>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <span class="badge badge-ordered">Actual Data (Wk 35-44)</span>
+                            <span class="badge badge-champion">AI Forecast (Wk 45-48)</span>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper-tall">
+                        <canvas id="weeklyRevenueForecastChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 5: MODEL EVALUATION PROCESS ==================== -->
+            <section id="view-evaluation" style="display: none;">
+                <div class="foresight-hero-banner">
+                    <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🎯</span> Model Evaluation Process & Benchmarking
+                    </h2>
+                    <p style="font-size: 0.875rem; color: #93c5fd; max-width: 800px;">
+                        Rigorous out-of-sample cross-validation (5-Fold TimeSeriesSplit) comparing Mean Absolute Error (MAE), Root Mean Squared Error (RMSE), Mean Absolute Percentage Error (MAPE), and Coefficient of Determination (R²).
+                    </p>
+                </div>
+
+                <!-- Model Comparison Table -->
+                <div class="card" style="margin-bottom: 1.75rem;">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Production Model Leaderboard</h3>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Evaluated on 52-week test holdout set</p>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="custom-table" id="modelEvaluationTable">
+                            <thead>
+                                <tr>
+                                    <th>Model Architecture</th>
+                                    <th>MAE (Mean Abs Error)</th>
+                                    <th>RMSE (Root Mean Sq Error)</th>
+                                    <th>MAPE (Error %)</th>
+                                    <th>R² Score</th>
+                                    <th>Deployment Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="charts-grid-even">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Residual Error Distribution (Q-Q Normalcy)</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="residualChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Model R² Comparison</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="modelR2Chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 6: INVENTORY OPTIMIZATION ==================== -->
+            <section id="view-optimization" style="display: none;">
+                <div class="foresight-hero-banner">
+                    <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>⚡</span> Inventory Health & Multi-Echelon Buffer Optimization
+                    </h2>
+                    <p style="font-size: 0.875rem; color: #93c5fd; max-width: 800px;">
+                        Dynamic inventory policy simulation balancing stockout risk against working capital holding costs. Interactive service level dial and safety buffer calibration.
+                    </p>
+                </div>
+
+                <!-- Inventory Health in Monthly Revenue Trend -->
+                <div class="card" style="margin-bottom: 1.75rem;">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Inventory Health in Monthly Revenue Trend</h3>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Dual-axis visualization: Gross Monthly Revenue ($) vs Inventory Health Index (%)</p>
+                        </div>
+                        <span class="badge badge-healthy">Current Health Score: 98%</span>
+                    </div>
+                    <div class="chart-wrapper-tall">
+                        <canvas id="inventoryHealthMonthlyChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Interactive Service Level & Safety Stock Simulator -->
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Interactive Service Level & Safety Stock Simulator</h3>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Adjust desired fulfillment service level to simulate buffer stock requirement and capital allocation</p>
+                        </div>
+                        <span class="badge badge-ordered" id="slBadge">Service Level: 95.0% (Z = 1.645)</span>
+                    </div>
+                    <div style="padding: 1rem 0;">
+                        <input type="range" min="80" max="99" value="95" class="smart-slider" id="serviceLevelSlider" oninput="handleServiceLevelChange(this.value)">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+                            <span>80% (Lean / High Stockout Risk)</span>
+                            <span>90% (Industry Standard)</span>
+                            <span>95% (Recommended Balance)</span>
+                            <span>99% (Mission Critical / High Buffer Cost)</span>
+                        </div>
+                    </div>
+                    <div class="stats-grid" style="margin-top: 1rem; margin-bottom: 0;">
+                        <div class="stat-card" style="border-left: 4px solid var(--primary);">
+                            <div class="stat-info">
+                                <h3>Recommended Safety Buffer</h3>
+                                <div class="stat-value" id="simBufferQty">18 units</div>
+                                <div class="stat-sub">Units per product line</div>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-left: 4px solid var(--success);">
+                            <div class="stat-info">
+                                <h3>Expected Stockout Rate</h3>
+                                <div class="stat-value" style="color: var(--success);" id="simStockoutRate">5.0%</div>
+                                <div class="stat-sub">Expected stockouts per 100 cycles</div>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-left: 4px solid var(--accent-cyan);">
+                            <div class="stat-info">
+                                <h3>Buffer Capital Required</h3>
+                                <div class="stat-value" id="simCapitalReq">$18,450</div>
+                                <div class="stat-sub">Allocated working capital</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 7: SMART FORESIGHT AI SUGGESTIONS ==================== -->
+            <section id="view-suggestions" style="display: none;">
+                <div class="card foresight-hero-banner" style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <h2 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <span>🧠</span> Project Foresight Intelligence Engine
+                            </h2>
+                            <p style="font-size: 0.875rem; color: #93c5fd; max-width: 700px;">
+                                Automated statistical burn-rate analysis, Economic Order Quantity (EOQ), supplier lead-time buffers, and runway forecasting to prevent stockouts before they happen.
+                            </p>
+                        </div>
+                        <button class="btn btn-primary" onclick="loadSuggestions()" style="background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);">Refresh Intelligence</button>
+                    </div>
+                </div>
+
+                <div id="suggestionsContainer">
+                    <!-- Loaded dynamically via app.js -->
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 8: PRODUCTS CATALOGUE ==================== -->
+            <section id="view-products" style="display: none;">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+                        <div style="display: flex; gap: 0.75rem; flex: 1; max-width: 600px;">
+                            <input type="text" id="productSearchInput" class="form-control" placeholder="Search by SKU or product name..." oninput="handleProductSearch()">
+                            <select id="productCategoryFilter" class="form-control" style="max-width: 220px;" onchange="handleProductSearch()">
+                                <option value="">All Categories</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn-outline" onclick="openCsvModal()">
+                                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                                Bulk CSV Import
+                            </button>
+                            <button class="btn btn-primary" onclick="openProductModal()">
+                                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                                Add New Product
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="custom-table" id="productsTable">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>SKU</th>
+                                    <th>Category</th>
+                                    <th>Stock on Hand</th>
+                                    <th>Reorder Point</th>
+                                    <th>Cost / Sell Price</th>
+                                    <th>Warehouse</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 9: PURCHASE ORDERS ==================== -->
+            <section id="view-orders" style="display: none;">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3 class="card-title">Procurement & Replenishment Orders</h3>
+                            <p style="font-size: 0.8125rem; color: var(--text-muted);">Manage suppliers, issue purchase orders, and record partial/full incoming receipts.</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="openCreatePoModal()">
+                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                            Create Purchase Order
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="custom-table" id="ordersTable">
+                            <thead>
+                                <tr>
+                                    <th>PO Number</th>
+                                    <th>Supplier</th>
+                                    <th>Destination</th>
+                                    <th>Date Created</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                    <th>Items Ordered / Received</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 10: WAREHOUSES & TRANSFERS ==================== -->
+            <section id="view-warehouses" style="display: none;">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3 class="card-title">Warehouse Network & Stock Transfers</h3>
+                            <p style="font-size: 0.8125rem; color: var(--text-muted);">Manage multi-facility logistics and initiate inter-warehouse movements.</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="openTransferModal()">
+                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+                            Transfer Stock
+                        </button>
+                    </div>
+                </div>
+
+                <div class="stats-grid" id="warehousesGrid">
+                    <!-- Populated dynamically -->
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 11: SUPPLIERS ==================== -->
+            <section id="view-suppliers" style="display: none;">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3 class="card-title">Approved Supplier Directory</h3>
+                            <p style="font-size: 0.8125rem; color: var(--text-muted);">Vendor contacts, delivery lead-times, and performance ratings.</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="openSupplierModal()">
+                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                            Add Supplier
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="custom-table" id="suppliersTable">
+                            <thead>
+                                <tr>
+                                    <th>Supplier Name</th>
+                                    <th>Contact Person</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Lead Time</th>
+                                    <th>Rating</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 12: MOVEMENT AUDIT LEDGER ==================== -->
+            <section id="view-audit" style="display: none;">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3 class="card-title">Traceable Movement Audit Ledger</h3>
+                            <p style="font-size: 0.8125rem; color: var(--text-muted);">Immutable audit trail of all receipts, sales dispatches, adjustments, and transfers.</p>
+                        </div>
+                        <button class="btn btn-outline btn-sm" onclick="exportMovementCsv()">
+                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                            Export CSV
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="custom-table" id="auditTable">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>SKU & Name</th>
+                                    <th>Location</th>
+                                    <th>Type</th>
+                                    <th>Delta</th>
+                                    <th>Prev Stock</th>
+                                    <th>New Stock</th>
+                                    <th>Reason / Reference</th>
+                                    <th>Performed By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+</div>
+
+<!-- ==================== MODALS ==================== -->
+
+<!-- MODAL: ADD / EDIT PRODUCT -->
+<div class="modal-backdrop" id="productModal">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h3 class="modal-title" id="productModalTitle">Add New Product</h3>
+            <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
+        </div>
+        <form onsubmit="handleProductSubmit(event)">
+            <input type="hidden" id="prodEditId">
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">SKU (Unique Code) *</label>
+                        <input type="text" id="prodSku" class="form-control" placeholder="PRD-2001" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Product Name *</label>
+                        <input type="text" id="prodName" class="form-control" placeholder="Sensor Controller Node" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Category *</label>
+                        <select id="prodCategory" class="form-control" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Primary Supplier</label>
+                        <select id="prodSupplier" class="form-control"></select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Cost Price ($) *</label>
+                        <input type="number" step="0.01" id="prodCost" class="form-control" placeholder="25.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Selling Price ($) *</label>
+                        <input type="number" step="0.01" id="prodPrice" class="form-control" placeholder="49.99" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Quantity on Hand *</label>
+                        <input type="number" id="prodStock" class="form-control" placeholder="20" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Reorder Level (Threshold) *</label>
+                        <input type="number" id="prodReorder" class="form-control" placeholder="10" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Unit of Measure</label>
+                        <input type="text" id="prodUnit" class="form-control" placeholder="PCS, BOX, KG" value="PCS">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Default Warehouse</label>
+                        <select id="prodLocation" class="form-control"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Image URL</label>
+                    <input type="url" id="prodImageUrl" class="form-control" placeholder="https://images.unsplash.com/...">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea id="prodDesc" class="form-control" rows="2" placeholder="Brief technical specifications..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('productModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="prodSubmitBtn">Save Product</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: STOCK ADJUSTMENT -->
+<div class="modal-backdrop" id="adjustmentModal">
+    <div class="modal-dialog" style="max-width: 480px;">
+        <div class="modal-header">
+            <h3 class="modal-title">Record Stock Movement</h3>
+            <button class="modal-close" onclick="closeModal('adjustmentModal')">&times;</button>
+        </div>
+        <form onsubmit="handleAdjustmentSubmit(event)">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Select Product *</label>
+                    <select id="adjProduct" class="form-control" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Movement Type *</label>
+                    <select id="adjType" class="form-control" required>
+                        <option value="STOCK_IN">Stock In (Receipt / Restock)</option>
+                        <option value="STOCK_OUT">Stock Out (Customer Sale / Dispatch)</option>
+                        <option value="ADJUSTMENT">Adjustment (Audit / Loss / Correction)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Quantity *</label>
+                    <input type="number" id="adjQty" class="form-control" placeholder="e.g. 15" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Warehouse Location</label>
+                    <select id="adjLocation" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Reason / Notes</label>
+                    <input type="text" id="adjReason" class="form-control" placeholder="Annual count, damaged packaging, etc.">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('adjustmentModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit Movement</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: STOCK TRANSFER -->
+<div class="modal-backdrop" id="transferModal">
+    <div class="modal-dialog" style="max-width: 480px;">
+        <div class="modal-header">
+            <h3 class="modal-title">Inter-Warehouse Stock Transfer</h3>
+            <button class="modal-close" onclick="closeModal('transferModal')">&times;</button>
+        </div>
+        <form onsubmit="handleTransferSubmit(event)">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Select Product *</label>
+                    <select id="transProduct" class="form-control" required></select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">From Origin *</label>
+                        <select id="transFrom" class="form-control" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">To Destination *</label>
+                        <select id="transTo" class="form-control" required></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Transfer Quantity *</label>
+                    <input type="number" id="transQty" class="form-control" min="1" placeholder="Quantity" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Transfer Reason</label>
+                    <input type="text" id="transReason" class="form-control" placeholder="Rebalancing regional stock">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('transferModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Confirm Transfer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: BULK CSV IMPORT -->
+<div class="modal-backdrop" id="csvModal">
+    <div class="modal-dialog" style="max-width: 500px;">
+        <div class="modal-header">
+            <h3 class="modal-title">Bulk Import Products (CSV)</h3>
+            <button class="modal-close" onclick="closeModal('csvModal')">&times;</button>
+        </div>
+        <form onsubmit="handleCsvUpload(event)">
+            <div class="modal-body">
+                <p style="font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                    Upload a CSV file with columns: <br>
+                    <code>sku, name, category, costPrice, sellingPrice, stock, reorderLevel</code>
+                </p>
+                <div class="form-group">
+                    <label class="form-label">Select CSV File</label>
+                    <input type="file" id="csvFileInput" class="form-control" accept=".csv" required>
+                </div>
+                <button type="button" class="btn btn-outline btn-sm" onclick="downloadSampleCsv()">
+                    📥 Download Sample CSV Template
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('csvModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Upload & Import</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: CREATE PURCHASE ORDER -->
+<div class="modal-backdrop" id="createPoModal">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h3 class="modal-title">Create Purchase Order</h3>
+            <button class="modal-close" onclick="closeModal('createPoModal')">&times;</button>
+        </div>
+        <form onsubmit="handleCreatePoSubmit(event)">
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Supplier *</label>
+                        <select id="poSupplier" class="form-control" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Target Warehouse *</label>
+                        <select id="poLocation" class="form-control" required></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Order Notes</label>
+                    <input type="text" id="poNotes" class="form-control" placeholder="Priority restocking shipment">
+                </div>
+
+                <h4 style="font-size: 0.875rem; font-weight: 700; margin: 1.25rem 0 0.5rem 0;">Line Items</h4>
+                <div id="poLineItemsContainer">
+                    <!-- Line item rows added here -->
+                </div>
+                <button type="button" class="btn btn-outline btn-sm" onclick="addPoLineItemRow()" style="margin-top: 0.5rem;">
+                    + Add Another Item
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('createPoModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Create PO (Draft)</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: RECEIVE PO ITEMS -->
+<div class="modal-backdrop" id="receivePoModal">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h3 class="modal-title" id="receivePoTitle">Receive Purchase Order Items</h3>
+            <button class="modal-close" onclick="closeModal('receivePoModal')">&times;</button>
+        </div>
+        <form onsubmit="handleReceivePoSubmit(event)">
+            <input type="hidden" id="receivePoId">
+            <div class="modal-body">
+                <p style="font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                    Specify received quantities below. Partial receipts will update stock on hand atomically and keep the remaining balance open on this order.
+                </p>
+                <div id="receiveItemsList">
+                    <!-- Dynamic line items with received inputs -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('receivePoModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Process Receipt & Update Stock</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: ADD / EDIT SUPPLIER -->
+<div class="modal-backdrop" id="supplierModal">
+    <div class="modal-dialog" style="max-width: 520px;">
+        <div class="modal-header">
+            <div>
+                <h3 class="modal-title" id="supplierModalTitle">Add New Approved Supplier</h3>
+                <p style="font-size: 0.8125rem; color: var(--text-secondary); margin: 0.25rem 0 0 0;">
+                    Manage vendor contact details, lead times, and performance scores.
+                </p>
+            </div>
+            <button class="modal-close" onclick="closeModal('supplierModal')">&times;</button>
+        </div>
+        <form onsubmit="handleSupplierSubmit(event)">
+            <input type="hidden" id="supplierId">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Supplier / Company Name *</label>
+                    <input type="text" id="supName" class="form-control" placeholder="e.g., Apex Semiconductors Ltd" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Contact Person</label>
+                        <input type="text" id="supContact" class="form-control" placeholder="e.g., Elena Vance">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address *</label>
+                        <input type="email" id="supEmail" class="form-control" placeholder="orders@apexsemi.com" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="text" id="supPhone" class="form-control" placeholder="+1 555-0192">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Lead Time (Days) *</label>
+                        <input type="number" id="supLeadTime" class="form-control" min="1" max="90" value="7" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Vendor Rating (1.0 - 5.0) *</label>
+                        <input type="number" step="0.1" id="supRating" class="form-control" min="1" max="5" value="4.8" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Facility / HQ Address</label>
+                        <input type="text" id="supAddress" class="form-control" placeholder="Silicon Valley Logistics Park, CA">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('supplierModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="supSubmitBtn">Save Supplier</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: WEINTERN TEAM & PROJECT ALLOCATION -->
+<div class="modal-backdrop" id="teamModal">
+    <div class="modal-dialog" style="max-width: 650px;">
+        <div class="modal-header">
+            <div>
+                <h3 class="modal-title">WeIntern Major Project 01 — Team 01</h3>
+                <p style="font-size: 0.8125rem; color: var(--text-secondary); margin: 0.25rem 0 0 0;">
+                    Smart Inventory and Supply Chain Management System
+                </p>
+            </div>
+            <button class="modal-close" onclick="closeModal('teamModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="background: rgba(14, 165, 233, 0.08); border-left: 4px solid var(--primary-accent); padding: 0.875rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
+                <div style="font-size: 0.8125rem; font-weight: 700; color: var(--primary-dark);">Academic / Professional Framework:</div>
+                <div style="font-size: 0.8125rem; color: var(--text-secondary);">WeIntern Java Full Stack Project Track | Submission Standards: Architecture, Working Demo, ER Diagrams, ML Analytics, Automated Testing.</div>
+            </div>
+
+            <h4 style="font-size: 0.875rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--primary-dark);">Team Members & Contribution Breakdown</h4>
+            
+            <div class="table-container" style="box-shadow: none; border: 1px solid var(--border-color); margin-bottom: 1rem;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">No.</th>
+                            <th>Member Name</th>
+                            <th>Role & Focus Area</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>01</strong></td>
+                            <td><strong style="color: var(--primary-accent);">ANUBHAB SHARMA</strong> <span class="badge" style="background: #e0f2fe; color: #0369a1; font-size: 0.7rem;">Lead</span></td>
+                            <td style="font-size: 0.8125rem;">Full Stack Architecture, Spring Boot 3 Backend, ML Analytics Services, OAuth2 & Deployment</td>
+                        </tr>
+                        <tr>
+                            <td><strong>02</strong></td>
+                            <td><strong>Prerna Raut</strong></td>
+                            <td style="font-size: 0.8125rem;">Database Schema Design, JPA Entities (`Product`, `StockMovement`), ORM Mapping</td>
+                        </tr>
+                        <tr>
+                            <td><strong>03</strong></td>
+                            <td><strong>Sanket Abhang</strong></td>
+                            <td style="font-size: 0.8125rem;">Inventory Ledger, Stock In/Out Transactions, Negative Stock Safeguards</td>
+                        </tr>
+                        <tr>
+                            <td><strong>04</strong></td>
+                            <td><strong>Sudhanshu Raj</strong></td>
+                            <td style="font-size: 0.8125rem;">Purchase Order Workflows, Supplier Management, Atomic Partial Receipts</td>
+                        </tr>
+                        <tr>
+                            <td><strong>05</strong></td>
+                            <td><strong>Purvika N</strong></td>
+                            <td style="font-size: 0.8125rem;">Smart Blue/White UI/UX, Chart.js Visualization, Responsive Design & Layout</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <a href="README.md" target="_blank" class="btn btn-outline btn-sm" style="flex: 1; text-align: center; justify-content: center;">View Project README</a>
+                <a href="TECHNICAL_REPORT.md" target="_blank" class="btn btn-outline btn-sm" style="flex: 1; text-align: center; justify-content: center;">Technical Report</a>
+                <a href="ER_DIAGRAM.md" target="_blank" class="btn btn-outline btn-sm" style="flex: 1; text-align: center; justify-content: center;">Database ER Diagram</a>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="closeModal('teamModal')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast notifications -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

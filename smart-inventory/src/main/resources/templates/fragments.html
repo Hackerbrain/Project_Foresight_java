@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="flash">
+  <div class="flash success" role="status" th:if="${success}" th:text="${success}"></div>
+  <div class="flash error" role="alert" th:if="${error}" th:text="${error}"></div>
+</div>
+
+<span th:fragment="money(v)"
+      th:text="${currency} + ' ' + ${#numbers.formatDecimal(v, 1, 'COMMA', 2, 'POINT')}"></span>
+
+<div class="gauge" th:fragment="gauge(p)" th:classappend="${p.lowStock} ? 'is-low'">
+  <div class="gauge-bar" th:title="'Reorder level: ' + ${p.reorderLevel}">
+    <span th:style="'width:' + ${p.gaugePercent} + '%'"></span>
+    <i th:style="'left:' + ${p.reorderMarkPercent} + '%'"></i>
+  </div>
+  <b th:text="${p.quantityOnHand}">0</b>
+</div>
+
+<nav class="pager" th:fragment="pager(page, pageUrl)" th:if="${page.totalPages > 1}">
+  <span>Page <b th:text="${page.number + 1}">1</b> of <b th:text="${page.totalPages}">1</b>
+        (<span th:text="${page.totalElements}">0</span> results)</span>
+  <span class="actions">
+    <a class="btn ghost small" th:if="${page.hasPrevious()}" th:href="@{${pageUrl + 'page=' + (page.number - 1)}}">Previous</a>
+    <a class="btn ghost small" th:if="${page.hasNext()}" th:href="@{${pageUrl + 'page=' + (page.number + 1)}}">Next</a>
+  </span>
+</nav>
+</body>
+</html>

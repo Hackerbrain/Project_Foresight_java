@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'products')}">
+<head><title>Products</title></head>
+<body>
+<section>
+<header class="page-head">
+    <div><h1>Products</h1><p>Search the catalogue and see which items need replenishing.</p></div>
+    <div class="actions" sec:authorize="hasAnyRole('ADMIN','INVENTORY_STAFF')">
+      <a class="btn gold" th:href="@{/products/new}">Add product</a>
+    </div>
+  </header>
+  <div class="panel flush">
+    <form class="filters" th:action="@{/products}" method="get">
+      <div><label for="q">Search</label><input id="q" name="q" th:value="${q}" placeholder="Name or SKU"></div>
+      <div><label for="categoryId">Category</label>
+        <select id="categoryId" name="categoryId">
+          <option value="0">All categories</option>
+          <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}" th:selected="${c.id == categoryId}"></option>
+        </select></div>
+      <div class="check"><input id="low" type="checkbox" name="low" value="true" th:checked="${low}"><label for="low">Low stock only</label></div>
+      <button type="submit">Apply filters</button>
+      <a class="btn ghost" th:href="@{/products}">Clear</a>
+    </form>
+    <div class="empty" th:if="${products.isEmpty()}">No products match these filters.</div>
+    <table th:unless="${products.isEmpty()}">
+      <thead><tr><th>Product</th><th>Category</th><th>Stock against reorder line</th><th class="num">Cost</th><th class="num">Price</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr th:each="p : ${products.content}">
+          <td><a th:href="@{/products/{id}(id=${p.id})}" th:text="${p.name}">Name</a><div class="sku" th:text="${p.sku}">SKU</div></td>
+          <td th:text="${p.category.name}">Category</td>
+          <td><div th:replace="~{fragments :: gauge(${p})}"></div></td>
+          <td class="num"><span th:replace="~{fragments :: money(${p.costPrice})}"></span></td>
+          <td class="num"><span th:replace="~{fragments :: money(${p.sellingPrice})}"></span></td>
+          <td><span class="badge low" th:if="${p.lowStock}">Low stock</span><span class="badge ok" th:unless="${p.lowStock}">In stock</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <nav th:replace="~{fragments :: pager(${products}, ${pageUrl})}"></nav>
+  </div>
+</section>
+</body>
+</html>

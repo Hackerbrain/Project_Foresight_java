@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'inventory')}">
+<head><title>Stock ledger</title></head>
+<body>
+<section>
+<header class="page-head">
+    <div><h1>Stock ledger</h1><p>Every change to stock, with who made it and why.</p></div>
+    <div class="actions" sec:authorize="hasAnyRole('ADMIN','INVENTORY_STAFF')">
+      <a class="btn gold" th:href="@{/inventory/transaction}">Record transaction</a>
+    </div>
+  </header>
+  <div class="panel flush">
+    <form class="filters" th:action="@{/inventory}" method="get">
+      <div><label for="q">Search product</label><input id="q" name="q" th:value="${q}" placeholder="Name or SKU"></div>
+      <div><label for="type">Type</label>
+        <select id="type" name="type">
+          <option value="">All types</option>
+          <option th:each="t : ${types}" th:value="${t.name()}" th:text="${t.label}" th:selected="${t.name() == type}"></option>
+        </select></div>
+      <button type="submit">Apply filters</button>
+      <a class="btn ghost" th:href="@{/inventory}">Clear</a>
+    </form>
+    <div class="empty" th:if="${movements.isEmpty()}">No movements match these filters.</div>
+    <table th:unless="${movements.isEmpty()}">
+      <thead><tr><th>When</th><th>Product</th><th>Type</th><th class="num">Change</th><th class="num">Balance</th><th>Reason</th><th>By</th></tr></thead>
+      <tbody>
+        <tr th:each="m : ${movements.content}">
+          <td th:text="${#temporals.format(m.createdAt, 'dd MMM yyyy, HH:mm')}">now</td>
+          <td><a th:href="@{/products/{id}(id=${m.product.id})}" th:text="${m.product.name}">Product</a><div class="sku" th:text="${m.product.sku}">SKU</div></td>
+          <td><span class="badge" th:classappend="${m.type.css}" th:text="${m.type.label}">Type</span></td>
+          <td class="num" th:classappend="${m.quantityChange > 0} ? 'delta-in' : 'delta-out'" th:text="${(m.quantityChange > 0 ? '+' : '') + m.quantityChange}">+1</td>
+          <td class="num" th:text="${m.balanceAfter}">0</td>
+          <td><span th:text="${m.reason}">Reason</span> <span class="muted" th:if="${m.reference}" th:text="'(' + ${m.reference} + ')'"></span></td>
+          <td th:text="${m.performedBy}">user</td>
+        </tr>
+      </tbody>
+    </table>
+    <nav th:replace="~{fragments :: pager(${movements}, ${pageUrl})}"></nav>
+  </div>
+</section>
+</body>
+</html>

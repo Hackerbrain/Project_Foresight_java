@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'dashboard')}">
+<head><title>Dashboard</title></head>
+<body>
+<section>
+<header class="page-head">
+    <div><h1>Dashboard</h1><p>Stock position and supply activity at a glance.</p></div>
+    <div class="actions" sec:authorize="hasAnyRole('ADMIN','PURCHASING_STAFF')">
+      <a class="btn gold" th:href="@{/purchase-orders/new}">New purchase order</a>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="num" th:text="${stats.productCount}">0</div><div class="lbl">Active products</div></div>
+    <div class="stat"><div class="num" th:text="${#numbers.formatInteger(stats.unitsOnHand, 1, 'COMMA')}">0</div><div class="lbl">Units on hand</div></div>
+    <div class="stat"><div class="num"><span th:replace="~{fragments :: money(${stats.stockValue})}">0</span></div><div class="lbl">Stock value at cost</div></div>
+    <div class="stat" th:classappend="${stats.lowStockCount > 0} ? 'alert'"><div class="num" th:text="${stats.lowStockCount}">0</div><div class="lbl">Low-stock products</div></div>
+    <div class="stat"><div class="num" th:text="${stats.openOrders}">0</div><div class="lbl">Open purchase orders</div></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="panel flush">
+      <div class="panel-head"><h2>Low stock</h2><a th:href="@{/products(low=true)}">View all</a></div>
+      <div class="empty" th:if="${stats.lowStockProducts.isEmpty()}">Every product is above its reorder level.</div>
+      <table th:unless="${stats.lowStockProducts.isEmpty()}">
+        <thead><tr><th>Product</th><th>Stock against reorder line</th><th class="num">Reorder at</th><th></th></tr></thead>
+        <tbody>
+          <tr th:each="p : ${stats.lowStockProducts}">
+            <td><a th:href="@{/products/{id}(id=${p.id})}" th:text="${p.name}">Name</a><div class="sku" th:text="${p.sku}">SKU</div></td>
+            <td><div th:replace="~{fragments :: gauge(${p})}"></div></td>
+            <td class="num" th:text="${p.reorderLevel}">10</td>
+            <td class="num"><a class="btn ghost small" sec:authorize="hasAnyRole('ADMIN','INVENTORY_STAFF')"
+                th:href="@{/inventory/transaction(productId=${p.id},type='STOCK_IN')}">Add stock</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel flush">
+      <div class="panel-head"><h2>Purchase orders</h2><a th:href="@{/purchase-orders}">View all</a></div>
+      <table>
+        <tbody>
+          <tr th:each="entry : ${stats.ordersByStatus}">
+            <td><a th:href="@{/purchase-orders(status=${entry.key.name()})}"><span class="badge" th:classappend="${entry.key.css}" th:text="${entry.key.label}">Status</span></a></td>
+            <td class="num" th:text="${entry.value}">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel flush">
+    <div class="panel-head"><h2>Recent stock movements</h2><a th:href="@{/inventory}">Open ledger</a></div>
+    <div class="empty" th:if="${stats.recentMovements.isEmpty()}">No stock movements yet.</div>
+    <table th:unless="${stats.recentMovements.isEmpty()}">
+      <thead><tr><th>When</th><th>Product</th><th>Type</th><th class="num">Change</th><th class="num">Balance</th><th>By</th></tr></thead>
+      <tbody>
+        <tr th:each="m : ${stats.recentMovements}">
+          <td th:text="${#temporals.format(m.createdAt, 'dd MMM, HH:mm')}">now</td>
+          <td><a th:href="@{/products/{id}(id=${m.product.id})}" th:text="${m.product.name}">Product</a></td>
+          <td><span class="badge" th:classappend="${m.type.css}" th:text="${m.type.label}">Type</span></td>
+          <td class="num" th:classappend="${m.quantityChange > 0} ? 'delta-in' : 'delta-out'" th:text="${(m.quantityChange > 0 ? '+' : '') + m.quantityChange}">+1</td>
+          <td class="num" th:text="${m.balanceAfter}">0</td>
+          <td th:text="${m.performedBy}">user</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</body>
+</html>

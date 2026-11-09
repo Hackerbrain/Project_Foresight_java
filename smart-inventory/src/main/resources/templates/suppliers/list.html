@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'suppliers')}">
+<head><title>Suppliers</title></head>
+<body>
+<section>
+<header class="page-head">
+    <div><h1>Suppliers</h1><p>Who you buy from and what they supply.</p></div>
+    <div class="actions" sec:authorize="hasAnyRole('ADMIN','PURCHASING_STAFF')">
+      <a class="btn gold" th:href="@{/suppliers/new}">Add supplier</a>
+    </div>
+  </header>
+  <div class="panel flush">
+    <form class="filters" th:action="@{/suppliers}" method="get">
+      <div><label for="q">Search</label><input id="q" name="q" th:value="${q}" placeholder="Supplier or contact name"></div>
+      <button type="submit">Search</button>
+      <a class="btn ghost" th:href="@{/suppliers}">Clear</a>
+    </form>
+    <div class="empty" th:if="${suppliers.isEmpty()}">No suppliers found.</div>
+    <table th:unless="${suppliers.isEmpty()}">
+      <thead><tr><th>Supplier</th><th>Contact</th><th>Products supplied</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <tr th:each="s : ${suppliers.content}">
+          <td><strong th:text="${s.name}">Name</strong><div class="muted" th:text="${s.address}">Address</div></td>
+          <td><span th:text="${s.contactPerson}">Contact</span><div class="muted" th:text="${s.email}">email</div><div class="muted" th:text="${s.phone}">phone</div></td>
+          <td>
+            <span th:if="${s.products.isEmpty()}" class="muted">None linked</span>
+            <span th:each="p, st : ${s.products}"><a th:href="@{/products/{id}(id=${p.id})}" th:text="${p.name}">Product</a><span th:unless="${st.last}">, </span></span>
+          </td>
+          <td><span class="badge ok" th:if="${s.active}">Active</span><span class="badge cancelled" th:unless="${s.active}">Inactive</span></td>
+          <td class="num"><a class="btn ghost small" sec:authorize="hasAnyRole('ADMIN','PURCHASING_STAFF')" th:href="@{/suppliers/{id}/edit(id=${s.id})}">Edit</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <nav th:replace="~{fragments :: pager(${suppliers}, ${pageUrl})}"></nav>
+  </div>
+</section>
+</body>
+</html>

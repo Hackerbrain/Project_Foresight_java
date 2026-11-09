@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'orders')}">
+<head><title>Purchase order</title></head>
+<body>
+<section>
+<header class="page-head">
+    <div>
+      <h1><span th:text="${po.orderNumber}">PO-00001</span> <span class="badge" th:classappend="${po.status.css}" th:text="${po.status.label}">Status</span></h1>
+      <p>Supplier: <strong th:text="${po.supplier.name}">Supplier</strong>
+        &middot; Created by <span th:text="${po.createdBy}">user</span> on <span th:text="${#temporals.format(po.createdAt, 'dd MMM yyyy')}">date</span></p>
+    </div>
+    <div class="actions" sec:authorize="hasAnyRole('ADMIN','PURCHASING_STAFF')">
+      <form class="inline" th:if="${po.status.name() == 'DRAFT'}" th:action="@{/purchase-orders/{id}/place(id=${po.id})}" method="post">
+        <button type="submit" class="btn gold" th:disabled="${po.items.isEmpty()}">Place order</button>
+      </form>
+      <form class="inline" th:if="${(po.status.name() == 'DRAFT' or po.status.name() == 'ORDERED') and po.totalReceived == 0}"
+            th:action="@{/purchase-orders/{id}/cancel(id=${po.id})}" method="post"
+            onsubmit="return confirm('Cancel this purchase order?');">
+        <button type="submit" class="btn danger">Cancel order</button>
+      </form>
+    </div>
+  </header>
+
+  <div class="panel">
+    <dl class="kv">
+      <dt>Expected delivery</dt><dd th:text="${po.expectedDate != null} ? ${#temporals.format(po.expectedDate, 'dd MMM yyyy')} : 'Not set'">-</dd>
+      <dt>Order total</dt><dd><strong><span th:replace="~{fragments :: money(${po.totalAmount})}"></span></strong></dd>
+      <dt>Progress</dt><dd><span th:text="${po.totalReceived}">0</span> of <span th:text="${po.totalOrdered}">0</span> units received,
+        <strong th:text="${po.totalOutstanding}">0</strong> outstanding</dd>
+      <dt>Notes</dt><dd th:text="${po.notes} ?: 'None'">None</dd>
+    </dl>
+  </div>
+
+  <!-- DRAFT: editable lines -->
+  <div class="panel flush" th:if="${po.status.name() == 'DRAFT'}">
+    <div class="panel-head"><h2>Items</h2></div>
+    <div class="empty" th:if="${po.items.isEmpty()}">No items yet. Add the first item below.</div>
+    <table th:unless="${po.items.isEmpty()}">
+      <thead><tr><th>Product</th><th class="num">Quantity</th><th class="num">Unit cost</th><th class="num">Line total</th><th></th></tr></thead>
+      <tbody>
+        <tr th:each="i : ${po.items}">
+          <td th:text="${i.product.name}">Product</td>
+          <td class="num" th:text="${i.quantityOrdered}">0</td>
+          <td class="num"><span th:replace="~{fragments :: money(${i.unitCost})}"></span></td>
+          <td class="num"><span th:replace="~{fragments :: money(${i.lineTotal})}"></span></td>
+          <td class="num" sec:authorize="hasAnyRole('ADMIN','PURCHASING_STAFF')">
+            <form class="inline" th:action="@{/purchase-orders/{id}/items/{itemId}/remove(id=${po.id},itemId=${i.id})}" method="post">
+              <button type="submit" class="btn danger small">Remove</button></form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <form class="panel" th:if="${po.status.name() == 'DRAFT'}" sec:authorize="hasAnyRole('ADMIN','PURCHASING_STAFF')"
+        th:object="${itemForm}" th:action="@{/purchase-orders/{id}/items(id=${po.id})}" method="post">
+    <h2>Add item</h2>
+    <div class="form-grid">
+      <div class="full"><label for="productId">Product</label>
+        <select id="productId" th:field="*{productId}" required>
+          <option value="">Choose a product</option>
+          <option th:each="p : ${candidates}" th:value="${p.id}" th:text="${p.sku + ' - ' + p.name}"></option>
+        </select>
+        <div class="hint">Showing products linked to this supplier; if none are linked, the full catalogue is shown.</div></div>
+      <div><label for="quantity">Quantity</label><input id="quantity" type="number" min="1" th:field="*{quantity}" required></div>
+      <div><label for="unitCost">Unit cost (optional)</label><input id="unitCost" type="number" step="0.01" min="0" th:field="*{unitCost}">
+        <div class="hint">Leave blank to use the product's cost price.</div></div>
+    </div>
+    <button type="submit" class="btn gold" style="margin-top:16px">Add item</button>
+  </form>
+
+  <!-- ORDERED / PARTIALLY_RECEIVED: receive form -->
+  <form class="panel flush" th:if="${po.status.open}" th:action="@{/purchase-orders/{id}/receive(id=${po.id})}" method="post"
+        sec:authorize="hasAnyRole('ADMIN','INVENTORY_STAFF','PURCHASING_STAFF')">
+    <div class="panel-head"><h2>Receive goods</h2><span class="muted">Enter the units that arrived in this delivery.</span></div>
+    <table>
+      <thead><tr><th>Product</th><th class="num">Ordered</th><th class="num">Received</th><th class="num">Outstanding</th><th class="num">Receive now</th></tr></thead>
+      <tbody>
+        <tr th:each="i : ${po.items}">
+          <td th:text="${i.product.name}">Product</td>
+          <td class="num" th:text="${i.quantityOrdered}">0</td>
+          <td class="num" th:text="${i.quantityReceived}">0</td>
+          <td class="num" th:text="${i.outstanding}">0</td>
+          <td class="num"><input type="number" min="0" th:max="${i.outstanding}" value="0" th:name="'qty_' + ${i.id}"
+                th:disabled="${i.outstanding == 0}" th:attr="aria-label='Receive now: ' + ${i.product.name}"></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="actions" style="padding:14px 20px;border-top:1px solid var(--line)">
+      <button type="submit" class="btn gold">Record receipt</button>
+      <span class="muted">Stock is updated and a ledger entry is written for each line.</span>
+    </div>
+  </form>
+
+  <!-- RECEIVED / CANCELLED: read-only lines -->
+  <div class="panel flush" th:unless="${po.status.name() == 'DRAFT' or po.status.open}">
+    <div class="panel-head"><h2>Items</h2></div>
+    <table>
+      <thead><tr><th>Product</th><th class="num">Ordered</th><th class="num">Received</th><th class="num">Unit cost</th><th class="num">Line total</th></tr></thead>
+      <tbody>
+        <tr th:each="i : ${po.items}">
+          <td th:text="${i.product.name}">Product</td>
+          <td class="num" th:text="${i.quantityOrdered}">0</td>
+          <td class="num" th:text="${i.quantityReceived}">0</td>
+          <td class="num"><span th:replace="~{fragments :: money(${i.unitCost})}"></span></td>
+          <td class="num"><span th:replace="~{fragments :: money(${i.lineTotal})}"></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</body>
+</html>

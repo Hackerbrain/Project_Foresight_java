@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'products')}">
+<head><title>Product form</title></head>
+<body>
+<section>
+<header class="page-head"><div>
+    <h1 th:text="${productId == null} ? 'Add product' : 'Edit product'">Product</h1>
+    <p>Quantity changes are made through stock transactions so every change is recorded.</p>
+  </div></header>
+  <form class="panel" th:object="${form}" method="post"
+        th:action="${productId == null} ? @{/products} : @{/products/{id}(id=${productId})}">
+    <div class="form-grid">
+      <div><label for="sku">SKU</label><input id="sku" th:field="*{sku}" maxlength="40">
+        <div class="field-error" th:errors="*{sku}"></div></div>
+      <div><label for="name">Name</label><input id="name" th:field="*{name}" maxlength="150">
+        <div class="field-error" th:errors="*{name}"></div></div>
+      <div><label for="categoryId">Category</label>
+        <select id="categoryId" th:field="*{categoryId}">
+          <option value="">Choose a category</option>
+          <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+        </select>
+        <div class="field-error" th:errors="*{categoryId}"></div></div>
+      <div><label for="unit">Unit</label><input id="unit" th:field="*{unit}" maxlength="20">
+        <div class="field-error" th:errors="*{unit}"></div></div>
+      <div><label for="costPrice">Cost price</label><input id="costPrice" type="number" step="0.01" min="0" th:field="*{costPrice}">
+        <div class="field-error" th:errors="*{costPrice}"></div></div>
+      <div><label for="sellingPrice">Selling price</label><input id="sellingPrice" type="number" step="0.01" min="0" th:field="*{sellingPrice}">
+        <div class="field-error" th:errors="*{sellingPrice}"></div></div>
+      <div><label for="reorderLevel">Reorder level</label><input id="reorderLevel" type="number" min="0" th:field="*{reorderLevel}">
+        <div class="hint">The product shows as low stock at or below this quantity.</div>
+        <div class="field-error" th:errors="*{reorderLevel}"></div></div>
+      <div th:if="${productId == null}"><label for="openingStock">Opening stock</label><input id="openingStock" type="number" min="0" th:field="*{openingStock}">
+        <div class="hint">Recorded in the ledger as an opening balance.</div>
+        <div class="field-error" th:errors="*{openingStock}"></div></div>
+      <div><label for="locationId">Storage location</label>
+        <select id="locationId" th:field="*{locationId}">
+          <option value="">Not set</option>
+          <option th:each="l : ${locations}" th:value="${l.id}" th:text="${l.name}"></option>
+        </select></div>
+      <div class="full"><label for="description">Description</label><textarea id="description" th:field="*{description}" maxlength="500"></textarea>
+        <div class="field-error" th:errors="*{description}"></div></div>
+    </div>
+    <div class="actions" style="margin-top:20px">
+      <button type="submit" class="btn gold">Save product</button>
+      <a class="btn ghost" th:href="${productId == null} ? @{/products} : @{/products/{id}(id=${productId})}">Cancel</a>
+    </div>
+  </form>
+</section>
+</body>
+</html>

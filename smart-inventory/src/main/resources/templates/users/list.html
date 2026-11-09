@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'users')}">
+<head><title>Users</title></head>
+<body>
+<section>
+<header class="page-head">
+    <div><h1>Users</h1><p>Who can sign in and what they are allowed to do.</p></div>
+    <div class="actions"><a class="btn gold" th:href="@{/users/new}">Add user</a></div>
+  </header>
+  <div class="panel flush">
+    <table>
+      <thead><tr><th>Username</th><th>Name</th><th>Role</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <tr th:each="u : ${users}">
+          <td th:text="${u.username}">user</td>
+          <td th:text="${u.fullName}">Name</td>
+          <td th:text="${u.role.label}">Role</td>
+          <td><span class="badge ok" th:if="${u.enabled}">Enabled</span><span class="badge cancelled" th:unless="${u.enabled}">Disabled</span></td>
+          <td class="num">
+            <form class="inline" th:action="@{/users/{id}/enabled(id=${u.id})}" method="post">
+              <input type="hidden" name="enabled" th:value="${!u.enabled}">
+              <button type="submit" class="btn ghost small" th:text="${u.enabled} ? 'Disable' : 'Enable'">Disable</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</body>
+</html>

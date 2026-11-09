@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'users')}">
+<head><title>Add user</title></head>
+<body>
+<section>
+<header class="page-head"><div><h1>Add user</h1>
+    <p>Administrators manage everything. Inventory staff manage stock. Purchasing staff manage suppliers and orders.</p></div></header>
+  <form class="panel" th:object="${form}" th:action="@{/users}" method="post">
+    <div class="form-grid">
+      <div><label for="username">Username</label><input id="username" th:field="*{username}" autocomplete="off">
+        <div class="field-error" th:errors="*{username}"></div></div>
+      <div><label for="fullName">Full name</label><input id="fullName" th:field="*{fullName}">
+        <div class="field-error" th:errors="*{fullName}"></div></div>
+      <div><label for="password">Password</label><input id="password" type="password" th:field="*{password}" autocomplete="new-password">
+        <div class="hint">At least 8 characters.</div>
+        <div class="field-error" th:errors="*{password}"></div></div>
+      <div><label for="role">Role</label>
+        <select id="role" th:field="*{role}">
+          <option th:each="r : ${roles}" th:value="${r.name()}" th:text="${r.label}"></option>
+        </select>
+        <div class="field-error" th:errors="*{role}"></div></div>
+    </div>
+    <div class="actions" style="margin-top:20px">
+      <button type="submit" class="btn gold">Create user</button>
+      <a class="btn ghost" th:href="@{/users}">Cancel</a>
+    </div>
+  </form>
+</section>
+</body>
+</html>

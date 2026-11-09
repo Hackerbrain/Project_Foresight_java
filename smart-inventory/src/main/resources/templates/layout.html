@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:fragment="layout(title, content, active)">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:replace="${title}">Smart Inventory</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">Smart Inventory<small>Supply chain management</small></div>
+
+    <a class="nav" th:classappend="${active == 'dashboard'} ? 'is-active'" th:href="@{/}">Dashboard</a>
+
+    <div class="nav-group">Stock</div>
+    <a class="nav" th:classappend="${active == 'products'} ? 'is-active'" th:href="@{/products}">Products</a>
+    <a class="nav" th:classappend="${active == 'categories'} ? 'is-active'" th:href="@{/categories}">Categories</a>
+    <a class="nav" th:classappend="${active == 'inventory'} ? 'is-active'" th:href="@{/inventory}">Stock ledger</a>
+
+    <div class="nav-group">Purchasing</div>
+    <a class="nav" th:classappend="${active == 'suppliers'} ? 'is-active'" th:href="@{/suppliers}">Suppliers</a>
+    <a class="nav" th:classappend="${active == 'orders'} ? 'is-active'" th:href="@{/purchase-orders}">Purchase orders</a>
+
+    <th:block sec:authorize="hasRole('ADMIN')">
+      <div class="nav-group">Administration</div>
+      <a class="nav" th:classappend="${active == 'users'} ? 'is-active'" th:href="@{/users}">Users</a>
+    </th:block>
+
+    <div class="who">
+      <strong sec:authentication="name">user</strong>
+      <span sec:authorize="hasRole('ADMIN')">Administrator</span>
+      <span sec:authorize="hasRole('INVENTORY_STAFF')">Inventory staff</span>
+      <span sec:authorize="hasRole('PURCHASING_STAFF')">Purchasing staff</span>
+      <form th:action="@{/logout}" method="post">
+        <button type="submit" class="small">Sign out</button>
+      </form>
+    </div>
+  </aside>
+
+  <main class="content">
+    <div th:replace="~{fragments :: flash}"></div>
+    <th:block th:replace="${content}"></th:block>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, '')}">
+<head><title>Something went wrong</title></head>
+<body>
+<section>
+  <header class="page-head"><div>
+    <h1 th:text="${status == 403} ? 'Access denied' : (${status == 404} ? 'Page not found' : 'Something went wrong')">Error</h1>
+    <p th:text="${status == 403} ? 'Your role does not allow this action. Ask an administrator if you need access.' : (${status == 404} ? 'That page or record does not exist.' : (${message} ?: 'The request could not be completed.'))"></p>
+  </div></header>
+  <div class="actions">
+    <a class="btn" th:href="@{/}">Back to dashboard</a>
+    <a class="btn ghost" href="javascript:history.back()">Go back</a>
+  </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, 'products')}">
+<head><title>Product details</title></head>
+<body>
+<section>
+<header class="page-head">
+    <div>
+      <h1 th:text="${product.name}">Product</h1>
+      <p><span class="sku" th:text="${product.sku}">SKU</span> &middot; <span th:text="${product.category.name}">Category</span>
+        <span class="badge low" th:if="${product.lowStock && product.active}">Low stock</span>
+        <span class="badge cancelled" th:unless="${product.active}">Archived</span></p>
+    </div>
+    <div class="actions" sec:authorize="hasAnyRole('ADMIN','INVENTORY_STAFF')" th:if="${product.active}">
+      <a class="btn gold" th:href="@{/inventory/transaction(productId=${product.id},type='STOCK_IN')}">Stock in</a>
+      <a class="btn ghost" th:href="@{/inventory/transaction(productId=${product.id},type='STOCK_OUT')}">Stock out</a>
+      <a class="btn ghost" th:href="@{/inventory/transaction(productId=${product.id},type='ADJUSTMENT')}">Adjust</a>
+      <a class="btn ghost" th:href="@{/products/{id}/edit(id=${product.id})}">Edit</a>
+    </div>
+  </header>
+
+  <div class="grid-2">
+    <div class="panel">
+      <h2>Stock</h2>
+      <div th:replace="~{fragments :: gauge(${product})}"></div>
+      <p class="hint">The dark marker on the bar is the reorder level (<span th:text="${product.reorderLevel}">10</span>).</p>
+      <dl class="kv">
+        <dt>On hand</dt><dd><strong th:text="${product.quantityOnHand}">0</strong> <span th:text="${product.unit}">pcs</span></dd>
+        <dt>Reorder level</dt><dd th:text="${product.reorderLevel}">10</dd>
+        <dt>Location</dt><dd th:text="${product.location != null} ? ${product.location.name} : 'Not set'">Main</dd>
+      </dl>
+    </div>
+    <div class="panel">
+      <h2>Details</h2>
+      <dl class="kv">
+        <dt>Cost price</dt><dd><span th:replace="~{fragments :: money(${product.costPrice})}"></span></dd>
+        <dt>Selling price</dt><dd><span th:replace="~{fragments :: money(${product.sellingPrice})}"></span></dd>
+        <dt>Description</dt><dd th:text="${product.description} ?: 'None'">None</dd>
+      </dl>
+      <form class="inline" th:if="${product.active}" sec:authorize="hasAnyRole('ADMIN','INVENTORY_STAFF')"
+            th:action="@{/products/{id}/archive(id=${product.id})}" method="post"
+            onsubmit="return confirm('Archive this product? It will be hidden from lists but its history is kept.');">
+        <button type="submit" class="btn danger small" style="margin-top:14px">Archive product</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="panel flush">
+    <div class="panel-head"><h2>Recent movements</h2><a th:href="@{/inventory(q=${product.sku})}">Full history</a></div>
+    <div class="empty" th:if="${movements.isEmpty()}">No stock movements recorded for this product.</div>
+    <table th:unless="${movements.isEmpty()}">
+      <thead><tr><th>When</th><th>Type</th><th class="num">Change</th><th class="num">Balance</th><th>Reason</th><th>By</th></tr></thead>
+      <tbody>
+        <tr th:each="m : ${movements}">
+          <td th:text="${#temporals.format(m.createdAt, 'dd MMM yyyy, HH:mm')}">now</td>
+          <td><span class="badge" th:classappend="${m.type.css}" th:text="${m.type.label}">Type</span></td>
+          <td class="num" th:classappend="${m.quantityChange > 0} ? 'delta-in' : 'delta-out'" th:text="${(m.quantityChange > 0 ? '+' : '') + m.quantityChange}">+1</td>
+          <td class="num" th:text="${m.balanceAfter}">0</td>
+          <td><span th:text="${m.reason}">Reason</span> <span class="muted" th:if="${m.reference}" th:text="'(' + ${m.reference} + ')'"></span></td>
+          <td th:text="${m.performedBy}">user</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</body>
+</html>
